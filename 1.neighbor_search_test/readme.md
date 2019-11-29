@@ -1,1 +1,1 @@
-博客[MFiX中的并行碰撞搜索](https://www.cnblogs.com/Jay-CFD/p/11947101.html)中的代码
+博客[MFiX-DEM中的并行碰撞搜索](https://www.cnblogs.com/Jay-CFD/p/11947101.html)中的代码
