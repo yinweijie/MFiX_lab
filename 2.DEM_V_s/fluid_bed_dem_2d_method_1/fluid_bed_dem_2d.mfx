@@ -1,0 +1,266 @@
+#! File written Mon Apr 29 21:58:04 2019
+#! MFiX version 19.1.2.post0 by ywj123450 on DESKTOP-7HCQCPV
+
+### Run Controls
+  description     = '2D DEM fluid bed with a central jet.'
+  run_name        = 'fluid_bed_dem_2d'
+  units           = 'SI'
+  run_type        = 'new'
+  time            = 0.0
+  tstop           = 1.0
+  dt              = 5.0000e-04
+  dt_max          = 1.0000e-03
+  res_dt          = 0.01
+  batch_wallclock = 9000.0
+  chk_batchq_end  = .False.
+  drag_type       = 'GIDASPOW'
+  energy_eq       = .False.
+  nodesi          = 1
+  nodesj          = 1
+  nodesk          = 1
+  term_buffer     = 180.0
+  full_log        = .True.
+
+### Physical parameters
+  gravity_x = 0.0
+  gravity_y = -9.81
+  gravity_z = 0.0
+
+### Cartesian grid
+  cartesian_grid = .False.
+  use_stl        = .False.
+
+### Numeric
+  max_nit   = 50
+  tol_resid = 1.0000e-03
+
+### Geometry
+  coordinates = 'CARTESIAN'
+  imax        = 15
+  jmax        = 45
+  x_max       = 0.15
+  x_min       = 0
+  y_max       = 0.9
+  y_min       = 0
+  z_max       = 0.004
+  z_min       = 0
+  no_k        = .False.
+
+#### Fluid
+  mu_g0         = 1.8000e-05
+  species_eq(0) = .False.
+  ro_g0         = 1.205
+
+#### Solids
+  mmax = 1
+  # Solid 1
+    solids_model(1)  = 'DEM'
+    d_p0(1)          = 0.004
+    ro_s0(1)         = 2700.0
+    momentum_x_eq(1) = .False.
+    momentum_y_eq(1) = .False.
+    momentum_z_eq(1) = .False.
+    species_eq(1)    = .False.
+    nmax_s(1)        = 0
+
+
+### Initial conditions
+  # Initial condition 2: Entire domain
+    ic_x_e(2)               = 0.15 #!MFIX-GUI eq{float(xmax)}
+    ic_x_w(2)               = 0.0 #!MFIX-GUI eq{float(xmin)}
+    ic_y_s(2)               = 0.0 #!MFIX-GUI eq{float(ymin)}
+    ic_y_n(2)               = 0.9 #!MFIX-GUI eq{float(ymax)}
+    ic_des_fit_to_region(2) = .False.
+    ic_ep_g(2)              = 1.0
+    ic_t_g(2)               = 293.15
+    ic_u_g(2)               = 0.0
+    ic_v_g(2)               = 2.8
+    ic_w_g(2)               = 0.0
+    ic_p_star(2)            = 0.0
+    ic_ep_s(2,1)            = 0.0
+    ic_t_s(2,1)             = 293.15
+    ic_theta_m(2,1)         = 0.0
+    ic_u_s(2,1)             = 0.0
+    ic_v_s(2,1)             = 0.0
+    ic_w_s(2,1)             = 0.0
+
+
+# Boundary conditions
+  # Boundary condition 1: Bottom inlet
+    bc_type(1) = 'MI'
+    bc_x_e(1)  = 0.08
+    bc_x_w(1)  = 0.07
+    bc_y_s(1)  = 0.0 #!MFIX-GUI eq{float(ymin)}
+    bc_y_n(1)  = 0.0 #!MFIX-GUI eq{float(ymin)}
+    bc_ep_g(1) = 1.0
+    bc_p_g(1)  = 0.0
+    bc_t_g(1)  = 293.15
+    bc_u_g(1)  = 0.0
+    bc_v_g(1)  = 42.0
+    bc_w_g(1)  = 0.0
+    # Solid 1
+      bc_ep_s(1,1) = 0.0
+      bc_t_s(1,1)  = 293.15
+      bc_u_s(1,1)  = 0.0
+      bc_v_s(1,1)  = 0.0
+      bc_w_s(1,1)  = 0.0
+
+  # Boundary condition 2: Top outlet
+    bc_type(2) = 'PO'
+    bc_x_e(2)  = 0.15 #!MFIX-GUI eq{float(xmax)}
+    bc_x_w(2)  = 0.0 #!MFIX-GUI eq{float(xmin)}
+    bc_y_s(2)  = 0.9 #!MFIX-GUI eq{float(ymax)}
+    bc_y_n(2)  = 0.9 #!MFIX-GUI eq{float(ymax)}
+    bc_p_g(2)  = 0.0
+
+
+# VTK outputs
+  write_vtk_files         = .True.
+  time_dependent_filename = .True.
+  # VTK output 1: Entire domain
+    vtk_filebase(1)         = 'p'
+    vtk_x_e(1)              = 0.15 #!MFIX-GUI eq{float(xmax)}
+    vtk_x_w(1)              = 0.0 #!MFIX-GUI eq{float(xmin)}
+    vtk_y_s(1)              = 0.0 #!MFIX-GUI eq{float(ymin)}
+    vtk_y_n(1)              = 0.9 #!MFIX-GUI eq{float(ymax)}
+    vtk_data(1)             = 'P'
+    vtk_dt(1)               = 0.01
+    vtk_nxs(1)              = 0
+    vtk_nys(1)              = 0
+    vtk_nzs(1)              = 0
+    vtk_part_angular_vel(1) = .True.
+    vtk_part_diameter(1)    = .True.
+    vtk_part_orientation(1) = .True.
+    vtk_part_vel(1)         = .True.
+
+  # VTK output 2: Entire domain
+    vtk_filebase(2) = 'c'
+    vtk_x_e(2)      = 0.15 #!MFIX-GUI eq{float(xmax)}
+    vtk_x_w(2)      = 0.0 #!MFIX-GUI eq{float(xmin)}
+    vtk_y_s(2)      = 0.0 #!MFIX-GUI eq{float(ymin)}
+    vtk_y_n(2)      = 0.9 #!MFIX-GUI eq{float(ymax)}
+    vtk_data(2)     = 'C'
+    vtk_dt(2)       = 0.01
+    vtk_nxs(2)      = 0
+    vtk_nys(2)      = 0
+    vtk_nzs(2)      = 0
+    vtk_ep_g(2)     = .True.
+    vtk_u_s(2,1)    = .True.
+    vtk_v_s(2,1)    = .True.
+
+
+# SPx outputs
+  spx_dt(1)  = 0.01
+  spx_dt(2)  = 0.01
+  spx_dt(3)  = 0.01
+  spx_dt(4)  = 0.01
+  spx_dt(5)  = 100.0
+  spx_dt(6)  = 100.0
+  spx_dt(7)  = 100.0
+  spx_dt(8)  = 100.0
+  spx_dt(9)  = 100.0
+  spx_dt(10) = 1.0
+  spx_dt(11) = 1.0
+
+  group_resid = .True.
+### Discrete element model
+  des_coll_model         = 'LSD'
+  des_en_input(1)        = 0.9
+  des_en_wall_input(1)   = 1.0
+  des_etat_fac           = 0.5
+  des_etat_w_fac         = 0.5
+  des_interp_mean_fields = .True.
+  des_interp_on          = .True.
+  des_interp_scheme      = 'GARG_2012'
+  des_intg_method        = 'EULER'
+  des_neighbor_search    = 4
+  des_oneway_coupled     = .False.
+  kn                     = 1000.0
+  kn_w                   = 1000.0
+  kt_fac                 = 0.28571428571429 #!MFIX-GUI eq{float(2/7)}
+  kt_w_fac               = 0.28571428571429 #!MFIX-GUI eq{float(2/7)}
+  mew                    = 0.1
+  mew_w                  = 0.1
+  neighbor_search_n      = 20
+  nfactor                = 500
+  particles              = 2400
+
+### Two-fluid model
+  c_e            = 0.9
+  ep_star        = 0.42
+  friction_model = 'NONE'
+  kt_type        = 'ALGEBRAIC'
+  phi            = 30.0
+
+#*****************************************************
+# Miscellaneous keys                                 *
+#*****************************************************
+  enable_dmp_log       = .False.
+  nlog                 = 25
+  nrr                  = 1
+  print_des_data       = .False.
+  vtk_rrate(2,1)       = .True.
+  vtk_rrate_label(2,1) = 'v_s'
+
+# MFIX-GUI section
+#!MFIX-GUI parameters = {"order": ["min", "max", "xmin", "xmax", "ymin", "ymax",
+#!MFIX-GUI   "zmin", "zmax", "km", "m", "cm", "mm", "um", "mile", "yard", "ft",
+#!MFIX-GUI   "ins"], "parameters": {"min": 0.0, "max": 0.0, "xmin": 0, "xmax":
+#!MFIX-GUI   0.15, "ymin": 0, "ymax": 0.9, "zmin": 0, "zmax": 0.004, "km":
+#!MFIX-GUI   1000.0, "m": 1.0, "cm": 0.01, "mm": 0.001, "um": {"__type__":
+#!MFIX-GUI   "equation", "eq": "float(1e-06)"}, "mile": 1609.34, "yard": 0.9144,
+#!MFIX-GUI   "ft": 0.3048, "ins": 0.0254}}
+#!MFIX-GUI gui_version = 19.1.2.post0
+#!MFIX-GUI project_notes = ""
+#!MFIX-GUI author = tutorial
+#!MFIX-GUI geometry = {"geometry_dict": {}, "tree": {}}
+#!MFIX-GUI visual_props = {"mesh": {"color": "#f44328", "visible": true, "rep":
+#!MFIX-GUI   "wire", "edge": "#7a2114", "opacity": 1}, "background_mesh":
+#!MFIX-GUI   {"color": "#64b6f7", "visible": true, "rep": "wire", "edge":
+#!MFIX-GUI   "#325b7b", "opacity": 1.0}, "geometry": {"color": "#e0e0e0",
+#!MFIX-GUI   "visible": true, "rep": "wire", "edge": "#707070", "opacity": 1.0},
+#!MFIX-GUI   "regions": {"color": "#e0e0e0", "visible": true, "rep": "solid",
+#!MFIX-GUI   "edge": "#707070", "opacity": 0.5}, "normals": {"color": "#0000e0",
+#!MFIX-GUI   "visible": false, "scale": 0.1, "edge": "#000070"}, "axes":
+#!MFIX-GUI   {"color": "#0000e0", "visible": true, "edge": "#000070"}}
+#!MFIX-GUI regions_dict = {"order": ["Bottom inlet", "Top outlet", "Entire
+#!MFIX-GUI   domain"], "regions": {"Bottom inlet": {"to": [0.08, {"__type__":
+#!MFIX-GUI   "equation", "eq": "float(ymin)"}, {"__type__": "equation", "eq":
+#!MFIX-GUI   "float(zmax)"}], "from": [0.07, {"__type__": "equation", "eq":
+#!MFIX-GUI   "float(ymin)"}, {"__type__": "equation", "eq": "float(zmin)"}],
+#!MFIX-GUI   "color": "#6b70c5", "type": "XZ-plane"}, "Top outlet": {"to":
+#!MFIX-GUI   [{"__type__": "equation", "eq": "float(xmax)"}, {"__type__":
+#!MFIX-GUI   "equation", "eq": "float(ymax)"}, {"__type__": "equation", "eq":
+#!MFIX-GUI   "float(zmax)"}], "from": [{"__type__": "equation", "eq":
+#!MFIX-GUI   "float(xmin)"}, {"__type__": "equation", "eq": "float(ymax)"},
+#!MFIX-GUI   {"__type__": "equation", "eq": "float(zmin)"}], "color": "#98c2da",
+#!MFIX-GUI   "type": "XZ-plane"}, "Entire domain": {"to": [{"__type__":
+#!MFIX-GUI   "equation", "eq": "float(xmax)"}, {"__type__": "equation", "eq":
+#!MFIX-GUI   "float(ymax)"}, {"__type__": "equation", "eq": "float(zmax)"}],
+#!MFIX-GUI   "from": [{"__type__": "equation", "eq": "float(xmin)"},
+#!MFIX-GUI   {"__type__": "equation", "eq": "float(ymin)"}, {"__type__":
+#!MFIX-GUI   "equation", "eq": "float(zmin)"}], "color": "#ac999d"}}}
+#!MFIX-GUI bc_regions = [[[1], ["Bottom inlet"]], [[2], ["Top outlet"]]]
+#!MFIX-GUI ic_regions = [[[2], ["Entire domain"]]]
+#!MFIX-GUI is_regions = []
+#!MFIX-GUI ps_regions = []
+#!MFIX-GUI vtk_regions = [[[1], ["Entire domain"]], [[2], ["Entire domain"]]]
+#!MFIX-GUI OMP_NUM_THREADS = 1
+#!MFIX-GUI submit_to_queue = 0
+#!MFIX-GUI created_date = 2019-04-28 10:57
+#!MFIX-GUI modified_time = 2019-04-29 21:54
+#!MFIX-GUI project_version = 38
+#!MFIX-GUI modified_by = ywj123450
+#!MFIX-GUI usr_regions = []
+#!MFIX-GUI monitor_regions = []
+#!MFIX-GUI log_files = {}
+#!MFIX-GUI graphics = {"order": [], "data": {}}
+#!MFIX-GUI ui_state = {"mode": "modeler", "navigation": "Solids", "graphic_tab": 0}
+#!MFIX-GUI mfix_exe = [project]\mfixsolver.bat
+#!MFIX-GUI queue_template = {"template": "Joule"}
+#!MFIX-GUI BUILD_DMP = 0
+#!MFIX-GUI BUILD_FC_FLAGS = 
+#!MFIX-GUI BUILD_INTERACTIVE = PYMFIX
+#!MFIX-GUI BUILD_PARALLEL = 1
+#!MFIX-GUI BUILD_SMP = 0
+#!MFIX-GUI BUILD_TYPE = RELWITHDEBINFO
